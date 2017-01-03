@@ -1,3 +1,5 @@
-# blogSystem
+# Simple blog system
+----------
+using Sails.js 
 
-a [Sails](http://sailsjs.org) application
+
