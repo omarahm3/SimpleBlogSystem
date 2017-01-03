@@ -16,9 +16,6 @@ module.exports = {
     },
 
     login: function(req, res) {
-
-        console.log(req.allParams());
-
         passport.authenticate('local', function(err, user, info) {
             if ((err) || (!user)) {
                 return res.send({
