@@ -15,10 +15,12 @@ module.exports = {
             if (err) {
                 console.log('-Article.All ERROR:', err);
                 res.view('errors/error', {
+                    error: 'true',
                     message: err
                 });
             } else {
                 res.view('homepage', {
+                    error: 'false',
                     data: data
                 });
             }
@@ -34,11 +36,13 @@ module.exports = {
                 if (err) {
                     console.log('-Article.ByCategory ERROR:', err);
                     res.view('errors/error', {
+                        error: 'true',
                         message: err,
                         url: 'articles/main'
                     });
                 } else {
                     res.view('articles/byCat', {
+                        error: 'false',
                         data: data,
                         url: 'articles/main'
                     });
@@ -47,6 +51,7 @@ module.exports = {
         } else {
             console.log('-Article.ByCategory ERROR: No paramaters were found');
             res.view('errors/error', {
+                error: 'true',
                 message: 'Missing paramaters, those were sent are:' + req.allParams(),
                 url: 'articles/main'
             });
@@ -63,11 +68,13 @@ module.exports = {
                 if (err) {
                     console.log('-Article.ByQuery ERROR:', err);
                     res.view('errors/error', {
+                        error: 'true',
                         message: err,
                         url: 'articles/search'
                     });
                 } else {
                     res.view('articles/searchResults', {
+                        error: 'false',
                         data: data,
                         url: 'articles/search'
                     });
@@ -76,6 +83,7 @@ module.exports = {
         } else {
             console.log('-Article.ByQuery ERROR: No paramaters were found');
             res.view('errors/error', {
+                error: 'true',
                 message: 'Missing paramaters, those were sent are:' + req.allParams(),
                 url: 'articles/search'
             });
@@ -125,11 +133,13 @@ module.exports = {
                         if (err) {
                             console.log('-Article.Create ERROR', err);
                             res.view('errors/error', {
+                                error: 'true',
                                 message: err,
                                 url: 'articles/addArticle'
                             });
                         } else {
                             res.view('success/success', {
+                                error: 'false',
                                 message: "Article added successfully",
                                 url: 'articles/addArticle'
                             });
@@ -142,6 +152,7 @@ module.exports = {
             } else {
                 console.log('-GENERAL ERROR!!, MISSING IMPORTANT CREDINTIALS');
                 res.view('errors/error', {
+                    error: 'true',
                     message: 'Missing paramaters, those were sent are:' + req.allParams(),
                     url: 'articles/addArticle'
                 });
@@ -151,6 +162,7 @@ module.exports = {
         } else {
             console.log('-GENERAL ERROR!!, USER IS NOT AUTHENTICATED');
             res.view('user/login', {
+                error: 'true',
                 message: 'Please login to add a new article',
                 url: 'articles/addArticle'
             });
@@ -161,6 +173,7 @@ module.exports = {
         if (req.method === 'GET') {
             console.log('-GENERAL ERROR!!, You are not allowed here');
             res.view('homepage', {
+                error: 'true',
                 message: 'You requested wrong page',
                 url: 'articles/editArticle'
             });
@@ -174,12 +187,14 @@ module.exports = {
                     if (err) {
                         console.log('-Article.Edit ERROR', err);
                         res.view('errors/error', {
+                            error: 'true',
                             message: err,
                             id: req.param('id'),
                             url: 'articles/main'
                         });
                     } else {
                         res.view('articles/main', {
+                            error: 'false',
                             message: "title edited successfully",
                             id: req.param('id'),
                             title: article.title,
@@ -195,12 +210,14 @@ module.exports = {
                     if (err) {
                         console.log('-Article.Edit ERROR', err);
                         res.view('errors/error', {
+                            error: 'true',
                             message: err,
                             id: req.param('id'),
                             url: 'articles/main'
                         });
                     } else {
                         res.view('articles/main', {
+                            error: 'false',
                             message: "subTitle edited successfully",
                             id: req.param('id'),
                             subTitle: article.subTitle,
@@ -216,12 +233,14 @@ module.exports = {
                     if (err) {
                         console.log('-Article.Edit ERROR', err);
                         res.view('errors/error', {
+                            error: 'true',
                             message: err,
                             id: req.param('id'),
                             url: 'articles/main'
                         });
                     } else {
                         res.view('articles/main', {
+                            error: 'false',
                             message: "content edited successfully",
                             id: req.param('id'),
                             content: article.content,
@@ -236,12 +255,14 @@ module.exports = {
                     if (err) {
                         console.log('-Article.Edit ERROR', err);
                         res.view('errors/error', {
+                            error: 'true',
                             message: err,
                             id: req.param('id'),
                             url: 'articles/main'
                         });
                     } else {
                         res.view('articles/main', {
+                            error: 'false',
                             message: "content edited successfully",
                             id: req.param('id'),
                             category: article.category,
@@ -257,6 +278,7 @@ module.exports = {
                     if (err) console.log('ERROR: ', err);
                     if (_.isEmpty(uploadedFiles)) {
                         return res.view('errors/error', {
+                            error: 'true',
                             message: 'No image uploaded:' + req.allParams(),
                             url: 'articles/editArticle'
                         });
@@ -268,12 +290,14 @@ module.exports = {
                         if (err) {
                             console.log('-Article.Edit ERROR', err);
                             res.view('errors/error', {
+                                error: 'true',
                                 message: err,
                                 id: req.param('id'),
                                 url: 'articles/main'
                             });
                         } else {
                             res.view('articles/main', {
+                                error: 'false',
                                 message: "image edited successfully",
                                 id: req.param('id'),
                                 image: article.image,
@@ -287,6 +311,7 @@ module.exports = {
             } else {
                 console.log('-Article.Edit ERROR: No paramaters were found');
                 res.view('errors/error', {
+                    error: 'true',
                     message: 'Missing paramaters, those were sent are:' + req.allParams(),
                     url: 'articles/editArticle'
                 });
@@ -295,6 +320,7 @@ module.exports = {
         } else {
             console.log('-GENERAL ERROR!!, USER IS NOT AUTHENTICATED');
             res.view('user/login', {
+                error: 'true',
                 message: 'Please login to edit any article',
                 url: 'articles/editArticle'
             });
@@ -305,6 +331,7 @@ module.exports = {
         if (req.method === 'GET') {
             console.log('-GENERAL ERROR!!, You are not allowed here');
             res.view('homepage', {
+                error: 'true',
                 message: 'You requested wrong page',
                 url: 'articles/editArticle'
             });
@@ -315,13 +342,15 @@ module.exports = {
                 if (err) {
                     console.log('-Article.Delete ERROR', err);
                     res.view('errors/error', {
+                        error: 'true',
                         message: err,
                         url: 'articles/removeArticle'
                     });
                 } else {
                     res.view('articles/main', {
-                        message: err,
-                        url: 'articles/removeArticle'
+                        error: 'false',
+                        message: 'Article deleted successfully',
+                        url: 'articles/main'
                     });
                 }
             });
@@ -329,6 +358,7 @@ module.exports = {
         } else {
             console.log('-GENERAL ERROR!!, USER IS NOT AUTHENTICATED');
             res.view('user/login', {
+                error: 'true',
                 message: 'Please login to remove any article',
                 url: 'articles/removeArticle'
             });
