@@ -68,6 +68,11 @@ module.exports.routes = {
         controller: 'UserController',
         action: 'removeUser'
     },
+    '/searchUser': {
+        controller: 'UserController',
+        action: 'getUser_ByQuery'
+    },
+
     'POST /editUser': {
         controller: 'UserController',
         action: 'editUser'

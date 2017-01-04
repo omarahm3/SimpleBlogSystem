@@ -60,14 +60,20 @@
 	                var query = req.param('query') ? req.param('query') : undefined;
 	                var type = req.param('type');
 
-	                if (type !== 'name' || type !== 'email') {
+	                if (type !== 'name' && type !== 'email') {
 	                    type = 'name'; //Search by user name by default
 	                }
 
-	                User.find({
-	                    where: { type: query },
-	                    sort: 'createdAt DESC'
-	                }).exec(function(err, data) {
+	                var searchParam = {};
+	                var searchHelper = {};
+	                var fuckJS = {};
+	                var strContains = "contains";
+
+	                fuckJS[strContains] = query;
+	                searchParam[type] = fuckJS;
+	                searchParam['sort'] = 'createdAt DESC';
+
+	                User.find(searchParam).exec(function(err, data) {
 	                    if (err) {
 	                        console.log('-User.ByQuery ERROR:', err);
 	                        res.view('errors/error', {
