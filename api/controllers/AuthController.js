@@ -25,8 +25,14 @@ module.exports = {
             }
             req.logIn(user, function(err) {
                 if (err) res.send(err);
-                return res.send({
-                    message: info.message,
+
+                console.log('AUTH USER OBJECT', user);
+                req.session.user = user;
+                req.session.me = true;
+                return res.view('panel/welcome', {
+                    error: 'false',
+                    message: "You logged in successfuly",
+                    url: '/login',
                     user: user
                 });
             });
@@ -35,6 +41,8 @@ module.exports = {
     },
 
     logout: function(req, res) {
+        req.session.user = null;
+        req.session.me = false;
         req.logout();
         res.redirect('/');
     }

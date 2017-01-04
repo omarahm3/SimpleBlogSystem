@@ -1,0 +1,44 @@
+<div class="col-md-8">
+
+    <h1 class="page-header">
+        Welcome,
+        <small><%= session.user.name %></small>
+    </h1>
+    <div>
+
+        <table class="table table-inverse">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (var i=0 ; i< data.length ; i++) { %>
+                    <tr>
+                        <td>
+                            <%= data[i].id %>
+                        </td>
+                        <td>
+                            <a href="#" class="nameEdit" data-pk="<%=data[i].id%>">
+                                <%= data[i].name %>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" class="emailEdit" data-pk="<%=data[i].id%>">
+                                <%= data[i].email %>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/removeUser?id=<%=data[i].id%>">
+                                <img class="icon" src="../images/remove.png" alt="">
+                            </a>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+
+    </div>
+</div>

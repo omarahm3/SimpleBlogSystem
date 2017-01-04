@@ -51,6 +51,10 @@ module.exports.routes = {
         view: 'auth/register'
     },
 
+    'GET /panel/users': {
+        controller: 'UserController',
+        action: 'getAll_Users'
+    },
 
     'POST /panel/users/search': {
         controller: 'UserController',
@@ -59,6 +63,14 @@ module.exports.routes = {
     'POST /addUser': {
         controller: 'UserController',
         action: 'addUser'
+    },
+    '/removeUser': {
+        controller: 'UserController',
+        action: 'removeUser'
+    },
+    'POST /editUser': {
+        controller: 'UserController',
+        action: 'editUser'
     },
 
 
