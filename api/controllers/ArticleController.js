@@ -5,6 +5,9 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+
+var URL = "http://localhost:1337/";
+
 module.exports = {
 
 
@@ -120,13 +123,16 @@ module.exports = {
                     if (err) console.log('ERROR: ', err);
                     if (_.isEmpty(uploadedFiles)) return res.json({ error: 'Error no image uploaded' });
 
+                    var fileName = uploadedFiles[0].fd.substring(uploadedFiles[0].fd.lastIndexOf('\\') + 1);
+                    var path = require('util').format(URL + "/uploads/" + fileName);
+
                     var articleModel = {
                         title: title,
                         content: content,
                         user: user,
                         category: category,
                         subtitle: subtitle,
-                        image: uploadedFiles[0].fd
+                        image: path
                     }
 
                     Article.create(articleModel, function(err, data) {

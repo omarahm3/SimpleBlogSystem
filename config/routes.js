@@ -33,7 +33,13 @@ module.exports.routes = {
      ***************************************************************************/
 
     '/': {
-        view: 'homepage'
+        controller: 'ArticleController',
+        action: 'getAll_Articles'
+    },
+
+    '/uploader': {
+        controller: 'UserController',
+        action: 'upload_file'
     },
 
     'GET /login': {
@@ -76,6 +82,11 @@ module.exports.routes = {
     'POST /editUser': {
         controller: 'UserController',
         action: 'editUser'
+    },
+
+    'POST /addArticle': {
+        controller: 'ArticleController',
+        action: 'addArticle'
     },
 
 

@@ -7,6 +7,29 @@
 
 	module.exports = {
 
+	    upload_file: function(req, res) {
+	        var fs = require('fs');
+	        console.log(req.files);
+
+	        fs.readFile(req.files.upload.path, function(err, data) {
+	            var newPath = 'assets/files/' + req.files.upload.name;
+	            fs.writeFile(newPath, data, function(err) {
+	                if (err) res.view({ err: err });
+	                html = "";
+	                html += "<script type='text/javascript'>";
+	                html += "    var funcNum = " + req.query.CKEditorFuncNum + ";";
+	                html += "    var url     = \"/files/" + req.files.upload.name + "\";";
+	                html += "    var message = \"Uploaded file successfully\";";
+	                html += "";
+	                html += "    window.parent.CKEDITOR.tools.callFunction(funcNum, url, message);";
+	                html += "</script>";
+
+	                res.send(html);
+	            });
+
+	        });
+	    },
+
 	    // ----------------------------------------------------- GETTERS
 
 	    /*
@@ -14,8 +37,8 @@
 	    // returns Json object that carry:
 	    // 	- error: 			true 		=> 	(There is an error occurred)
 	    // 							false		=>		(No error occurred)
-		 // 	- message:			Error message or Success message to be shown to the end user
-		 // 	- users object: 	carry all the info of all users in DB
+		// 	- message:			Error message or Success message to be shown to the end user
+		// 	- users object: 	carry all the info of all users in DB
 	    */
 	    getAll_Users: function(req, res) {
 	        if (req.isAuthenticated()) {
@@ -48,9 +71,9 @@
 	    // returns Json object that carry:
 	    // 	- error: 			true 		=> 	(There is an error occurred)
 	    // 							false		=>		(No error occurred)
-		 // 	- message:			Error message or Success message to be shown to the end user
-		 // 	- url: 				URL user should go back to
-		 // 	- users object: 	carry all the info of all query matched users in DB
+		// 	- message:			Error message or Success message to be shown to the end user
+		// 	- url: 				URL user should go back to
+		// 	- users object: 	carry all the info of all query matched users in DB
 	    */
 	    getUser_ByQuery: function(req, res) {
 
@@ -119,9 +142,9 @@
 	    // returns Json object that carry:
 	    // 	- error: 			true 		=> 	(There is an error occurred)
 	    // 							false		=>		(No error occurred)
-		 // 	- message:			Error message or Success message to be shown to the end user
-		 // 	- url: 				URL user should go back to
-		 // 	- user object: 	carry all the info of user in action
+		// 	- message:			Error message or Success message to be shown to the end user
+		// 	- url: 				URL user should go back to
+		// 	- user object: 	carry all the info of user in action
 	    */
 	    addUser: function(req, res) {
 
@@ -190,10 +213,10 @@
 	    // returns Json object that carry:
 	    // 	- error: 			true 		=> 	(There is an error occurred)
 	    // 							false		=>		(No error occurred)
-		 // 	- message:			Error message or Success message to be shown to the end user
-		 // 	- id:					User Id ONLY IF there is an error for developing issues
-		 // 	- url: 				URL user should go back to
-		 // 	- user object: 	carry all the info of user in action
+		// 	- message:			Error message or Success message to be shown to the end user
+		// 	- id:					User Id ONLY IF there is an error for developing issues
+		// 	- url: 				URL user should go back to
+		// 	- user object: 	carry all the info of user in action
 	    */
 	    editUser: function(req, res) {
 
@@ -344,14 +367,6 @@
 	    // 	- url: 				URL user should go back to
 	    */
 	    removeUser: function(req, res) {
-	        // if (req.method === 'GET') {
-	        //     console.log('-GENERAL ERROR!!, You are not allowed here');
-	        //     res.view('homepage', {
-	        //         error: 'true',
-	        //         message: 'You requested wrong page',
-	        //         url: 'panel/users'
-	        //     });
-	        // }
 
 	        if (req.isAuthenticated()) {
 	            User.destroy({ 'id': req.param('id') }).exec(function(err) {
