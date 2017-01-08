@@ -90,22 +90,27 @@
 
         <% for (var i=0 ; i < data.length ; i++){ %>
             <div class="row">
-                <div class="col-sm-8">
+                <div class="col-sm-10">
                     <h2>
                         <% if (session.me && session.user){ %>
                             <a href="#" class="titleEdit" data-pk="<%=data[i].id%>">
                                 <%= data[i].title %>
                             </a>
-                            <small><%= data[i].subtitle %></small>
+                            <small><a href="#" class="subTitleEdit" data-pk="<%=data[i].id%>">
+                                <%= data[i].subTitle %>
+                            </a></small>
+
                             <% }else{ %>
                                 <a href="#">
                                     <%= data[i].title %>
                                 </a>
-                                <small><%= data[i].subtitle %></small>
+                                <small><a href="#">
+                                    <%= data[i].subTitle %>
+                                </a></small>
                                 <% } %>
                     </h2>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <% if (session.me && session.user){ %>
                         <h2>
                             <a href="/removeArticle?id=<%= data[i].id %>">
@@ -124,7 +129,7 @@
             </p>
             <p>
                 <span class="glyphicon glyphicon-time"></span> Posted on
-                <%= data[i].createdAt %>
+                <%= data[i].updatedAt %>
             </p>
             <hr>
             <img class="img-responsive" src="<%= data[i].image %>" alt="<%= data[i].title %>">
@@ -190,7 +195,7 @@
 
 
 
-                    <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                    <!--<a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>-->
 
                     <hr>
 

@@ -23,6 +23,12 @@ $(document).ready(function() {
         title: 'Enter Title'
     });
 
+    $('.subTitleEdit').editable({
+        type: 'text',
+        name: 'subTitle',
+        url: '/editArticle',
+        title: 'Enter sub title'
+    });
 
 
 

@@ -218,13 +218,7 @@ module.exports = {
                                 url: 'articles/main'
                             });
                         } else {
-                            res.view('articles/main', {
-                                error: 'false',
-                                message: "subTitle edited successfully",
-                                id: req.param('id'),
-                                subTitle: article.subTitle,
-                                url: 'articles/edit'
-                            });
+                            res.json({ message: "sub title edited successfully" });
                         }
                     });
 
