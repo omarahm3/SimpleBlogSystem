@@ -114,10 +114,10 @@
 	                });
 
 	            } else {
-	                console.log('-User.ByQuery ERROR: No paramaters were found');
+	                console.log('-User.ByQuery ERROR: No parameters were found');
 	                res.view('errors/error', {
 	                    error: 'true',
-	                    message: 'Missing paramaters, those were sent are:' + req.allParams(),
+	                    message: 'Missing parameters, those were sent are:' + req.allParams(),
 	                    url: 'panel/users'
 	                });
 	            }
@@ -192,7 +192,7 @@
 	            console.log('-GENERAL ERROR!!, MISSING IMPORTANT CREDINTIALS');
 	            res.view('errors/error', {
 	                error: 'true',
-	                message: 'Missing paramaters, those were sent are:' + req.allParams(),
+	                message: 'Missing parameters, those were sent are:' + req.allParams(),
 	                url: 'panel/users/addUser'
 	            });
 
@@ -230,120 +230,131 @@
 	        }
 
 	        if (req.isAuthenticated()) {
-	            if (req.param('name') && req.param('id')) {
-	                var name = req.param('name');
+	            if (req.param('name') && req.param('value') && req.param('pk')) {
 
-	                User.update({ id: req.param('id') }, { name: name }).exec(function(err, user) {
-	                    if (err) {
-	                        console.log('-User.Edit ERROR', err);
-	                        res.view('errors/error', {
-	                            error: 'true',
-	                            message: err,
-	                            id: req.param('id'),
-	                            url: 'panel/user/editUser'
-	                        });
-	                    } else {
-	                        User.find({ sort: 'createdAt DESC' }).limit(1).exec(function(err, data) {
-	                            if (err) {
-	                                console.log('-User.All ERROR:', err);
-	                                res.view('errors/error', {
-	                                    error: 'true',
-	                                    message: err
-	                                });
-	                            } else {
-	                                delete user[0].password;
-	                                user = user[0];
-	                                req.session.user = user;
-	                                res.view('panel/users', {
-	                                    error: 'false',
-	                                    message: "name edited successfully",
-	                                    user: user,
-	                                    url: 'panel/users',
-	                                    data: data
-	                                });
-	                            }
-	                        });
+	                if (req.param('name') === 'name') {
+	                    var name = req.param('value');
 
-	                    }
-	                });
+	                    User.update({ id: req.param('pk') }, { name: name }).exec(function(err, user) {
+	                        if (err) {
+	                            console.log('-User.Edit ERROR', err);
+	                            res.view('errors/error', {
+	                                error: 'true',
+	                                message: err,
+	                                id: req.param('pk'),
+	                                url: 'panel/user/editUser'
+	                            });
+	                        } else {
+	                            User.find({ sort: 'createdAt DESC' }).limit(1).exec(function(err, data) {
+	                                if (err) {
+	                                    console.log('-User.All ERROR:', err);
+	                                    res.view('errors/error', {
+	                                        error: 'true',
+	                                        message: err
+	                                    });
+	                                } else {
+	                                    delete user[0].password;
+	                                    user = user[0];
+	                                    req.session.user = user;
+	                                    res.view('panel/users', {
+	                                        error: 'false',
+	                                        message: "name edited successfully",
+	                                        user: user,
+	                                        url: 'panel/users',
+	                                        data: data
+	                                    });
+	                                }
+	                            });
 
-	            } else if (req.param('email') && req.param('id')) {
-	                var email = req.param('email');
+	                        }
+	                    });
 
-	                User.update({ id: req.param('id') }, { email: email }).exec(function(err, user) {
-	                    if (err) {
-	                        console.log('-User.Edit ERROR', err);
-	                        res.view('errors/error', {
-	                            error: 'true',
-	                            message: err,
-	                            id: req.param('id'),
-	                            url: 'panel/user/editUser'
-	                        });
-	                    } else {
-	                        User.find({ sort: 'createdAt DESC' }).exec(function(err, data) {
-	                            if (err) {
-	                                console.log('-User.All ERROR:', err);
-	                                res.view('errors/error', {
-	                                    error: 'true',
-	                                    message: err
-	                                });
-	                            } else {
-	                                delete user[0].password;
-	                                user = user[0];
-	                                req.session.user = user;
-	                                res.view('panel/users', {
-	                                    error: 'false',
-	                                    message: "Email edited successfully",
-	                                    user: user,
-	                                    url: 'panel/users',
-	                                    data: data
-	                                });
-	                            }
-	                        });
-	                    }
-	                });
+	                } else if (req.param('name') === 'email') {
+	                    var email = req.param('value');
 
-	            } else if (req.param('password') && req.param('id')) {
-	                var password = req.param('password');
+	                    User.update({ id: req.param('pk') }, { email: email }).exec(function(err, user) {
+	                        if (err) {
+	                            console.log('-User.Edit ERROR', err);
+	                            res.view('errors/error', {
+	                                error: 'true',
+	                                message: err,
+	                                id: req.param('pk'),
+	                                url: 'panel/user/editUser'
+	                            });
+	                        } else {
+	                            User.find({ sort: 'createdAt DESC' }).exec(function(err, data) {
+	                                if (err) {
+	                                    console.log('-User.All ERROR:', err);
+	                                    res.view('errors/error', {
+	                                        error: 'true',
+	                                        message: err
+	                                    });
+	                                } else {
+	                                    delete user[0].password;
+	                                    user = user[0];
+	                                    req.session.user = user;
+	                                    res.view('panel/users', {
+	                                        error: 'false',
+	                                        message: "Email edited successfully",
+	                                        user: user,
+	                                        url: 'panel/users',
+	                                        data: data
+	                                    });
+	                                }
+	                            });
+	                        }
+	                    });
 
-	                User.update({ id: req.param('id') }, { password: password }).exec(function(err, user) {
-	                    if (err) {
-	                        console.log('-User.Edit ERROR', err);
-	                        res.view('errors/error', {
-	                            error: 'true',
-	                            message: err,
-	                            id: req.param('id'),
-	                            url: 'panel/users'
-	                        });
-	                    } else {
-	                        User.find({ sort: 'createdAt DESC' }).exec(function(err, data) {
-	                            if (err) {
-	                                console.log('-User.All ERROR:', err);
-	                                res.view('errors/error', {
-	                                    error: 'true',
-	                                    message: err
-	                                });
-	                            } else {
-	                                delete user[0].password;
-	                                user = user[0];
-	                                req.session.user = user;
-	                                res.view('panel/users', {
-	                                    error: 'false',
-	                                    message: "password edited successfully",
-	                                    user: user,
-	                                    url: 'panel/users',
-	                                    data: data
-	                                });
-	                            }
-	                        });
-	                    }
-	                });
+	                } else if (req.param('password') && req.param('id')) {
+	                    var password = req.param('password');
+
+	                    User.update({ id: req.param('id') }, { password: password }).exec(function(err, user) {
+	                        if (err) {
+	                            console.log('-User.Edit ERROR', err);
+	                            res.view('errors/error', {
+	                                error: 'true',
+	                                message: err,
+	                                id: req.param('id'),
+	                                url: 'panel/users'
+	                            });
+	                        } else {
+	                            User.find({ sort: 'createdAt DESC' }).exec(function(err, data) {
+	                                if (err) {
+	                                    console.log('-User.All ERROR:', err);
+	                                    res.view('errors/error', {
+	                                        error: 'true',
+	                                        message: err
+	                                    });
+	                                } else {
+	                                    delete user[0].password;
+	                                    user = user[0];
+	                                    req.session.user = user;
+	                                    res.view('panel/users', {
+	                                        error: 'false',
+	                                        message: "password edited successfully",
+	                                        user: user,
+	                                        url: 'panel/users',
+	                                        data: data
+	                                    });
+	                                }
+	                            });
+	                        }
+	                    });
+
+	                } else {
+	                    console.log('-User.Edit ERROR: No parameters were found', req.allParams());
+	                    res.view('errors/error', {
+	                        error: 'true',
+	                        message: 'Missing parameters, those were sent are:' + req.allParams(),
+	                        url: 'panel/user/editUser'
+	                    });
+	                }
 
 	            } else {
-	                console.log('-User.Edit ERROR: No paramaters were found', req.allParams());
+	                console.log('-User.Edit ERROR: No Specific parameter was found', req.allParams());
 	                res.view('errors/error', {
 	                    error: 'true',
-	                    message: 'Missing paramaters, those were sent are:' + req.allParams(),
+	                    message: 'Missing parameters, those were sent are:' + req.allParams(),
 	                    url: 'panel/user/editUser'
 	                });
 	            }

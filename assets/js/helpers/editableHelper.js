@@ -16,6 +16,13 @@ $(document).ready(function() {
         title: 'Enter Email'
     });
 
+    $('.titleEdit').editable({
+        type: 'text',
+        name: 'title',
+        url: '/editArticle',
+        title: 'Enter Title'
+    });
+
 
 
 

@@ -88,6 +88,14 @@ module.exports.routes = {
         controller: 'ArticleController',
         action: 'addArticle'
     },
+    'POST /editArticle': {
+        controller: 'ArticleController',
+        action: 'editArticle'
+    },
+    'GET /removeArticle': {
+        controller: 'ArticleController',
+        action: 'removeArticle'
+    },
 
 
 

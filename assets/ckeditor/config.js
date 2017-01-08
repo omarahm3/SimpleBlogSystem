@@ -5,6 +5,8 @@
 
 CKEDITOR.editorConfig = function(config) {
     config.filebrowserUploadUrl = '/uploader';
+    config.extraPlugins = 'sourcedialog';
+    config.extraPlugins = 'inlinesave';
     // Define changes to default configuration here. For example:
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';

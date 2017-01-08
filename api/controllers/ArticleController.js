@@ -186,55 +186,52 @@ module.exports = {
         }
 
         if (req.isAuthenticated()) {
-            if (req.param('title') && req.param('id')) {
-                var title = req.param('title');
+            if (req.param('name') && req.param('value') && req.param('pk')) {
 
-                Article.update({ id: req.param('id') }, { title: title }).exec(function(err, article) {
-                    if (err) {
-                        console.log('-Article.Edit ERROR', err);
-                        res.view('errors/error', {
-                            error: 'true',
-                            message: err,
-                            id: req.param('id'),
-                            url: 'articles/main'
-                        });
-                    } else {
-                        res.view('articles/main', {
-                            error: 'false',
-                            message: "title edited successfully",
-                            id: req.param('id'),
-                            title: article.title,
-                            url: 'articles/edit'
-                        });
-                    }
-                });
+                if (req.param('name') === 'title') {
+                    var title = req.param('value');
 
-            } else if (req.param('subTitle') && req.param('id')) {
-                var subTitle = req.param('subTitle');
+                    Article.update({ id: req.param('pk') }, { title: title }).exec(function(err, article) {
+                        if (err) {
+                            console.log('-Article.Edit ERROR', err);
+                            res.view('errors/error', {
+                                error: 'true',
+                                message: err,
+                                id: req.param('pk'),
+                                url: 'articles/main'
+                            });
+                        } else {
+                            res.json({ message: "title edited successfully" });
+                        }
+                    });
 
-                Article.update({ id: req.param('id') }, { subTitle: subTitle }).exec(function(err, article) {
-                    if (err) {
-                        console.log('-Article.Edit ERROR', err);
-                        res.view('errors/error', {
-                            error: 'true',
-                            message: err,
-                            id: req.param('id'),
-                            url: 'articles/main'
-                        });
-                    } else {
-                        res.view('articles/main', {
-                            error: 'false',
-                            message: "subTitle edited successfully",
-                            id: req.param('id'),
-                            subTitle: article.subTitle,
-                            url: 'articles/edit'
-                        });
-                    }
-                });
+                } else if (req.param('name') === 'subTitle') {
+                    var subTitle = req.param('value');
 
-            } else if (req.param('content') && req.param('id')) {
-                var content = req.param('content');
+                    Article.update({ id: req.param('pk') }, { subTitle: subTitle }).exec(function(err, article) {
+                        if (err) {
+                            console.log('-Article.Edit ERROR', err);
+                            res.view('errors/error', {
+                                error: 'true',
+                                message: err,
+                                id: req.param('pk'),
+                                url: 'articles/main'
+                            });
+                        } else {
+                            res.view('articles/main', {
+                                error: 'false',
+                                message: "subTitle edited successfully",
+                                id: req.param('id'),
+                                subTitle: article.subTitle,
+                                url: 'articles/edit'
+                            });
+                        }
+                    });
 
+                }
+            } else if (req.param('content') && req.param('id') && req.param('editabledata')) {
+                var content = req.param('editabledata');
+                console.log(req.allParams());
                 Article.update({ id: req.param('id') }, { content: content }).exec(function(err, article) {
                     if (err) {
                         console.log('-Article.Edit ERROR', err);
@@ -245,13 +242,19 @@ module.exports = {
                             url: 'articles/main'
                         });
                     } else {
-                        res.view('articles/main', {
+                        res.json({
                             error: 'false',
                             message: "content edited successfully",
                             id: req.param('id'),
                             content: article.content,
-                            url: 'articles/edit'
                         });
+                        // res.view('homepage', {
+                        //     error: 'false',
+                        //     message: "content edited successfully",
+                        //     id: req.param('id'),
+                        //     content: article.content,
+                        //     url: 'articles/edit'
+                        // });
                     }
                 });
             } else if (req.param('category') && req.param('id')) {
@@ -334,14 +337,14 @@ module.exports = {
     },
 
     removeArticle: function(req, res) {
-        if (req.method === 'GET') {
-            console.log('-GENERAL ERROR!!, You are not allowed here');
-            res.view('homepage', {
-                error: 'true',
-                message: 'You requested wrong page',
-                url: 'articles/editArticle'
-            });
-        }
+        // if (req.method === 'GET') {
+        //     console.log('-GENERAL ERROR!!, You are not allowed here');
+        //     res.view('homepage', {
+        //         error: 'true',
+        //         message: 'You requested wrong page',
+        //         url: 'articles/editArticle'
+        //     });
+        // }
 
         if (req.isAuthenticated()) {
             Article.destroy({ 'id': req.param('id') }).exec(function(err) {
@@ -350,14 +353,10 @@ module.exports = {
                     res.view('errors/error', {
                         error: 'true',
                         message: err,
-                        url: 'articles/removeArticle'
+                        url: '/'
                     });
                 } else {
-                    res.view('articles/main', {
-                        error: 'false',
-                        message: 'Article deleted successfully',
-                        url: 'articles/main'
-                    });
+                    res.redirect('/');
                 }
             });
 
@@ -366,7 +365,7 @@ module.exports = {
             res.view('user/login', {
                 error: 'true',
                 message: 'Please login to remove any article',
-                url: 'articles/removeArticle'
+                url: '/'
             });
         }
     },

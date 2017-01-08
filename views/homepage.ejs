@@ -1,4 +1,6 @@
+<script src="/js/jquery-2.0.3.min.js"></script>
 <script src="/ckeditor/ckeditor.js"></script>
+<script src="/js/htmlParser.js"></script>
 <!-- Blog Entries Column -->
 <div class="col-xs-12 col-md-8">
 
@@ -83,15 +85,37 @@
 
 
     <!-- Blog Posts -->
-    <div class="col-xs-12 col-md-12 row">
+    <div class="col-xs-12 col-md-12">
 
 
         <% for (var i=0 ; i < data.length ; i++){ %>
-            <h2>
-                <a href="#">
-                    <%= data[i].title %>
-                </a>
-            </h2>
+            <div class="row">
+                <div class="col-sm-8">
+                    <h2>
+                        <% if (session.me && session.user){ %>
+                            <a href="#" class="titleEdit" data-pk="<%=data[i].id%>">
+                                <%= data[i].title %>
+                            </a>
+                            <small><%= data[i].subtitle %></small>
+                            <% }else{ %>
+                                <a href="#">
+                                    <%= data[i].title %>
+                                </a>
+                                <small><%= data[i].subtitle %></small>
+                                <% } %>
+                    </h2>
+                </div>
+                <div class="col-sm-4">
+                    <% if (session.me && session.user){ %>
+                        <h2>
+                            <a href="/removeArticle?id=<%= data[i].id %>">
+                                <img class="icon" src="/images/remove.png" alt="">
+                            </a>
+                        </h2>
+                        <% } %>
+                </div>
+            </div>
+
             <p class="lead">
                 by
                 <a href="#">
@@ -103,16 +127,74 @@
                 <%= data[i].createdAt %>
             </p>
             <hr>
-            <img class="img-responsive" src="<%= data[i].image %>" alt="">
+            <img class="img-responsive" src="<%= data[i].image %>" alt="<%= data[i].title %>">
             <hr>
-            <p>
+
+            <div id="contentData<%= data[i].id %>" class="content">
                 <%= data[i].content %>
-            </p>
-            <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
 
-            <hr>
+            <% if (session.me && session.user){ %>
+                <script>
+                    // The inline editor should be enabled on an element with "contenteditable" attribute set to "true".
+                    // Otherwise CKEditor will start in read-only mode.
+                    var id = <%= data[i].id %>;
+                    var name = 'contentData' + id;
 
-            <% } %>
+                    var contentData = document.getElementById(name);
+                    // var contentData = $('#' + name);
+                    contentData.setAttribute('contenteditable', true);
+                    CKEDITOR.disableAutoInline = true;
+
+                    CKEDITOR.inline(name, {
+
+                        // Allow some non-standard markup that we used in the introduction.
+                        extraAllowedContent: 'a(documentation);abbr[title];code',
+                        removePlugins: 'stylescombo',
+                        extraPlugins: 'sourcedialog',
+                        extraPlugins: 'inlinesave',
+                        // Show toolbar on startup (optional).
+                        // startupFocus: true
+                        on: {
+                            blur: function(event) {
+                                var data = event.editor.getData();
+                                console.log(data);
+                            }
+                        },
+                        inlinesave: {
+                            postUrl: '/editArticle',
+                            postData: {
+                                content: data,
+                                id: id
+                            },
+                            onSave: function(editor) {
+                                console.log('clicked save', editor.getData());
+                                return editor.getData();
+                            },
+                            onSuccess: function(editor, data) {
+                                console.log('save successful', editor, data);
+                            },
+                            onFailure: function(editor, status, request) {
+                                console.log('save failed', editor, status, request);
+                            },
+                            useJSON: false,
+                            useColorIcon: false
+                        }
+                    });
+                    var data = CKEDITOR.instances[name].getData();
+                    data = decodeHTML(data);
+                    CKEDITOR.instances[name].setData(data);
+                </script>
+
+                <% } %>
+
+
+
+                    <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                    <hr>
+
+                    <% } %>
     </div>
 
 
