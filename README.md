@@ -1,5 +1,4 @@
 # Simple blog system
 ----------
-using Sails.js 
 
-
+To Check it out: https://blogsys.herokuapp.com/
