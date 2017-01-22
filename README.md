@@ -1,4 +1,4 @@
 # Simple blog system
 ----------
 
-To Check it out: https://blogsys.herokuapp.com/
+Check it out on: https://blogsys.herokuapp.com/
